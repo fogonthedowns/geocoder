@@ -13,12 +13,12 @@ module Geocoder
     base.class_eval do
 
       # named scope: geocoded objects
-      named_scope :geocoded,
+      scope :geocoded,
         :conditions => "#{geocoder_options[:latitude]} IS NOT NULL " +
           "AND #{geocoder_options[:longitude]} IS NOT NULL"
 
       # named scope: not-geocoded objects
-      named_scope :not_geocoded,
+      scope :not_geocoded,
         :conditions => "#{geocoder_options[:latitude]} IS NULL " +
           "OR #{geocoder_options[:longitude]} IS NULL"
       
@@ -27,7 +27,7 @@ module Geocoder
       # (address string). Location (the first argument) may be either a string
       # to geocode or an array of coordinates (<tt>[lat,long]</tt>).
       #
-      named_scope :near, lambda{ |location, *args|
+      scope :near, lambda{ |location, *args|
         latitude, longitude = location.is_a?(Array) ?
           location : Geocoder.fetch_coordinates(location)
         if latitude and longitude
